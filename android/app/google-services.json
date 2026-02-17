@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "398534479066",
+    "project_id": "unibuy-e0fae",
+    "storage_bucket": "unibuy-e0fae.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398534479066:android:1821c4fe52159eda0769e3",
+        "android_client_info": {
+          "package_name": "com.example.unibuy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkgHav4r2kysoftpBuQ8IPIDGUrkQydWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
