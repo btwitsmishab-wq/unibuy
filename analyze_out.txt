@@ -1,0 +1,1 @@
+[info] Unnecessary use of multiple underscores (C:\Users\LENOVO\Documents\UniBuy\lib\screens\notifications_screen.dart:199:41)

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_options.dart';
 import 'screens/splash_screen.dart';
 import 'screens/home_screen.dart';
@@ -14,13 +13,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   
-  // Enable offline persistence
-  // Note: On Web, this automatically uses IndexedDB if available
-  FirebaseFirestore.instance.settings = const Settings(
-    persistenceEnabled: true,
-    cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
-  );
-
   runApp(const UniBuyApp());
 }
 
@@ -33,12 +25,69 @@ class UniBuyApp extends StatelessWidget {
       title: 'UniBuy',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF1D5DE4),
+          brightness: Brightness.light,
+          primary: const Color(0xFF0F264D),
+          onPrimary: Colors.white,
+          secondary: const Color(0xFF1D5DE4),
+          onSecondary: Colors.white,
+          surface: Colors.white,
+          surfaceContainerHighest: const Color(0xFFF8F9FB),
+        ),
+        scaffoldBackgroundColor: const Color(0xFFF8F9FB),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF0F264D),
+          foregroundColor: Colors.white,
+          elevation: 0,
+          centerTitle: false,
+          titleTextStyle: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        cardTheme: CardThemeData(
+          elevation: 0,
+          color: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF1D5DE4),
+            foregroundColor: Colors.white,
+            elevation: 0,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            padding: const EdgeInsets.symmetric(vertical: 14),
+          ),
+        ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: Color(0xFF1D5DE4),
+          foregroundColor: Colors.white,
+          elevation: 4,
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: Colors.grey.shade300)),
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: Colors.grey.shade300)),
+          focusedBorder: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12)), borderSide: BorderSide(color: Color(0xFF1D5DE4), width: 2)),
+          filled: true,
+          fillColor: Colors.white,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        ),
+        fontFamily: 'Roboto',
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Colors.white,
+          selectedItemColor: Color(0xFF1D5DE4),
+          unselectedItemColor: Color(0xFF9AA3B2),
+          elevation: 12,
+          type: BottomNavigationBarType.fixed,
+        ),
       ),
       home: const SplashScreen(),
     );
   }
+
 }
 
 class AuthWrapper extends StatelessWidget {

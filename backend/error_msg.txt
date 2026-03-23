@@ -1,0 +1,22 @@
+Error: Cannot find module 'sentiment'
+Require stack:
+- C:\Users\LENOVO\Documents\UniBuy\backend\ai_sentiment.js
+- C:\Users\LENOVO\Documents\UniBuy\backend\confidence.js
+- C:\Users\LENOVO\Documents\UniBuy\backend\index.js
+- C:\Users\LENOVO\Documents\UniBuy\backend\debug.js
+Error: Cannot find module 'sentiment'
+Require stack:
+- C:\Users\LENOVO\Documents\UniBuy\backend\ai_sentiment.js
+- C:\Users\LENOVO\Documents\UniBuy\backend\confidence.js
+- C:\Users\LENOVO\Documents\UniBuy\backend\index.js
+- C:\Users\LENOVO\Documents\UniBuy\backend\debug.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1448:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1234:25)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1548:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\LENOVO\Documents\UniBuy\backend\ai_sentiment.js:1:19)
+    at Module._compile (node:internal/modules/cjs/loader:1804:14)

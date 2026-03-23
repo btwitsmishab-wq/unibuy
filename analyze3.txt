@@ -1,0 +1,4 @@
+[info] Statements in an if should be enclosed in a block (C:\Users\LENOVO\Documents\UniBuy\lib\screens\order_summary_screen.dart:283:73)
+[info] Statements in an if should be enclosed in a block (C:\Users\LENOVO\Documents\UniBuy\lib\screens\order_summary_screen.dart:284:74)
+[info] Statements in an if should be enclosed in a block (C:\Users\LENOVO\Documents\UniBuy\lib\screens\order_summary_screen.dart:285:78)
+[info] Statements in an if should be enclosed in a block (C:\Users\LENOVO\Documents\UniBuy\lib\screens\order_summary_screen.dart:286:101)

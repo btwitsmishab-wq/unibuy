@@ -1,0 +1,2 @@
+[info] 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre (C:\Users\LENOVO\Documents\UniBuy\lib\main.dart:37:11)
+[warning] The declaration '_buildStatusBadge' isn't referenced (C:\Users\LENOVO\Documents\UniBuy\lib\screens\home_screen.dart:435:10)

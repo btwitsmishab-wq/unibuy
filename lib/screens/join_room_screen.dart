@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../services/api_service.dart';
 
 class JoinRoomScreen extends StatefulWidget {
   const JoinRoomScreen({super.key});
@@ -11,6 +11,7 @@ class JoinRoomScreen extends StatefulWidget {
 
 class _JoinRoomScreenState extends State<JoinRoomScreen> {
   final _codeController = TextEditingController();
+  final _apiService = ApiService();
   bool _isLoading = false;
 
   Future<void> _joinRoom() async {
@@ -29,43 +30,7 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
       final user = FirebaseAuth.instance.currentUser;
       if (user == null) throw Exception('User not logged in');
 
-      // 1. Find the room with this code
-      final querySnapshot = await FirebaseFirestore.instance
-          .collection('rooms')
-          .where('roomCode', isEqualTo: code)
-          .limit(1)
-          .get();
-
-      if (querySnapshot.docs.isEmpty) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).clearSnackBars();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Invalid Room Code'), backgroundColor: Colors.red),
-          );
-        }
-        return;
-      }
-
-      final roomDoc = querySnapshot.docs.first;
-      final roomData = roomDoc.data() as Map<String, dynamic>;
-      final List<dynamic> memberIds = List.from(roomData['memberIds'] ?? []);
-
-      // 2. Check if user is already a member
-      if (memberIds.contains(user.uid)) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).clearSnackBars();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('You are already in this room!'), backgroundColor: Colors.orange),
-          );
-          Navigator.pop(context);
-        }
-        return;
-      }
-
-      // 3. Add user to memberIds array
-      await roomDoc.reference.update({
-        'memberIds': FieldValue.arrayUnion([user.uid]),
-      });
+      await _apiService.joinRoom(code);
 
       if (mounted) {
         ScaffoldMessenger.of(context).clearSnackBars();

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:math';
+import '../services/api_service.dart';
 
 class CreateRoomScreen extends StatefulWidget {
   const CreateRoomScreen({super.key});
@@ -12,23 +11,46 @@ class CreateRoomScreen extends StatefulWidget {
 
 class _CreateRoomScreenState extends State<CreateRoomScreen> {
   final _nameController = TextEditingController();
-  final _firestore = FirebaseFirestore.instance;
+  final _apiService = ApiService();
   final _auth = FirebaseAuth.instance;
   bool _isLoading = false;
   
+  List<dynamic> _availableCategories = [];
+  int? _selectedCategoryId;
+  bool _isCategoriesLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCategories();
+  }
+
   @override
   void dispose() {
     _nameController.dispose();
     super.dispose();
   }
 
-  String selectedCategory = 'Groceries';
-  final List<String> categories = ['Groceries', 'Food', 'Household', 'Other'];
-
-  String _generateRoomCode() {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    return String.fromCharCodes(Iterable.generate(
-        6, (_) => chars.codeUnitAt(Random().nextInt(chars.length))));
+  Future<void> _fetchCategories() async {
+    try {
+      final categories = await _apiService.getCategories();
+      if (mounted) {
+        setState(() {
+          _availableCategories = categories;
+          if (_availableCategories.isNotEmpty) {
+            _selectedCategoryId = _availableCategories[0]['id'];
+          }
+          _isCategoriesLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isCategoriesLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error loading categories: $e')),
+        );
+      }
+    }
   }
 
   Future<void> _createRoom() async {
@@ -40,51 +62,81 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
       return;
     }
 
+    if (_selectedCategoryId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a category')),
+      );
+      return;
+    }
+
     setState(() => _isLoading = true);
 
     try {
       final user = _auth.currentUser;
       if (user == null) throw Exception('User not logged in');
 
-      final roomCode = _generateRoomCode();
-      final roomRef = _firestore.collection('rooms').doc();
+      final room = await _apiService.createRoom(roomName, _selectedCategoryId!);
+      final roomCode = room['room_code'];
 
-      // We don't await this so it happens "optimistically" in the background
-      // Firestore will handle the local write and background sync
-      roomRef.set({
-        'roomId': roomRef.id,
-        'roomName': roomName,
-        'category': selectedCategory,
-        'roomCode': roomCode,
-        'createdBy': user.uid,
-        'createdAt': FieldValue.serverTimestamp(),
-        'memberIds': [user.uid], // Creator is the first member
-      });
+      if (!mounted) return;
 
-      if (mounted) {
-        // Return to home screen immediately
-        Navigator.of(context).pop();
-        
-        // Clear any existing snackbars to avoid queuing
-        ScaffoldMessenger.of(context).clearSnackBars();
-
-        // Show success message (will appear on the Home screen)
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Room "$roomName" Created! Code: $roomCode'), 
-            backgroundColor: Colors.green,
-            duration: const Duration(seconds: 2), // Reduced for snappier feel
-            behavior: SnackBarBehavior.floating,
-            action: SnackBarAction(
-              label: 'OK',
-              textColor: Colors.white,
-              onPressed: () {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              },
-            ),
+      await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (ctx) => AlertDialog(
+          title: const Row(
+            children: [
+              Icon(Icons.check_circle, color: Colors.green, size: 28),
+              SizedBox(width: 8),
+              Text('Room Created!'),
+            ],
           ),
-        );
-      }
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Your room "$roomName" is ready.'),
+              const SizedBox(height: 20),
+              const Text(
+                'Room Code',
+                style: TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+              const SizedBox(height: 6),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                decoration: BoxDecoration(
+                  color: Colors.deepPurple.shade50,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.deepPurple.shade200),
+                ),
+                child: Text(
+                  roomCode,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 6,
+                    color: Colors.deepPurple,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'Share this code with others to invite them.',
+                style: TextStyle(fontSize: 12, color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.of(ctx).pop(),
+              child: const Text('Done'),
+            ),
+          ],
+        ),
+      );
+
+      if (mounted) Navigator.of(context).pop();
+
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -121,23 +173,32 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              DropdownButtonFormField<String>(
-                value: selectedCategory,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-                items: categories.map((String category) {
-                  return DropdownMenuItem<String>(
-                    value: category,
-                    child: Text(category),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedCategory = newValue!;
-                  });
-                },
-              ),
+              _isCategoriesLoading
+                  ? const Center(child: LinearProgressIndicator())
+                  : DropdownButtonFormField<int>(
+                      initialValue: _selectedCategoryId,
+                      isExpanded: true,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                      items: _availableCategories.map((dynamic category) {
+                        return DropdownMenuItem<int>(
+                          value: category['id'],
+                          child: Row(
+                            children: [
+                              Icon(_getCategoryIcon(category['icon'])),
+                              const SizedBox(width: 12),
+                              Text(category['name']),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (int? newValue) {
+                        setState(() {
+                          _selectedCategoryId = newValue!;
+                        });
+                      },
+                    ),
               const SizedBox(height: 32),
               _isLoading
                   ? const Center(
@@ -164,5 +225,22 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
         ),
       ),
     );
+  }
+
+  IconData _getCategoryIcon(String? iconName) {
+    switch (iconName) {
+      case 'shopping_basket':
+        return Icons.shopping_basket;
+      case 'restaurant':
+        return Icons.restaurant;
+      case 'home':
+        return Icons.home;
+      case 'devices':
+        return Icons.devices;
+      case 'more_horiz':
+        return Icons.more_horiz;
+      default:
+        return Icons.category;
+    }
   }
 }

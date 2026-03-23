@@ -1,0 +1,3 @@
+ALTER TABLE global_products
+ADD COLUMN IF NOT EXISTS cached_score JSONB,
+ADD COLUMN IF NOT EXISTS score_last_updated TIMESTAMP WITH TIME ZONE;
