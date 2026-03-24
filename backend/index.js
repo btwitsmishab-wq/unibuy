@@ -8,7 +8,7 @@ const { calculateConfidence: calculateProductConfidence } = require('./confidenc
 const admin = require('firebase-admin');
 const fs = require('fs');
 const path = require('path');
-const logFile = path.join('C:', 'Users', 'LENOVO', 'AppData', 'Local', 'Temp', 'unibuy_backend_debug.log');
+const logFile = path.join(__dirname, 'unibuy_backend_debug.log');
 
 const app = express();
 const server = http.createServer(app);
