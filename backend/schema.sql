@@ -17,7 +17,9 @@ CREATE TABLE IF NOT EXISTS rooms (
     category_id INTEGER REFERENCES categories(id),
     created_by VARCHAR(128) NOT NULL, -- Firebase UID
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    is_active BOOLEAN DEFAULT TRUE
+    is_active BOOLEAN DEFAULT TRUE,
+    is_shopping BOOLEAN DEFAULT FALSE,
+    status VARCHAR(50) DEFAULT 'active'
 );
 
 -- 3. Room Members Table (Relationship between users and rooms)

@@ -192,7 +192,14 @@ app.get('/api/admin/migrate', async (req, res) => {
     try {
         const schema = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf-8');
         await db.query(schema);
-        res.json({ message: 'Database migrated successfully!' });
+        
+        const migrate = fs.readFileSync(path.join(__dirname, 'migrate.sql'), 'utf-8');
+        await db.query(migrate);
+
+        // Inject the missing status column that was absent from both schema.sql and migrate.sql
+        await db.query(`ALTER TABLE rooms ADD COLUMN IF NOT EXISTS status VARCHAR(50) DEFAULT 'active'`);
+        
+        res.json({ message: 'Database schema and migrations applied successfully!' });
     } catch (err) {
         console.error('Migration Error:', err);
         res.status(500).json({ error: 'Migration failed', details: err.message });
