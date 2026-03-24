@@ -41,8 +41,11 @@ CREATE TABLE IF NOT EXISTS items (
     urgency_level INTEGER DEFAULT 1,
     price_estimate DECIMAL(10, 2) DEFAULT 0,
     added_by VARCHAR(128) NOT NULL, -- Firebase UID
+    added_by_name VARCHAR(255),
     status VARCHAR(50) DEFAULT 'pending', -- pending, available, unavailable, replaced, auto_selected
     is_bought BOOLEAN DEFAULT FALSE,
+    purchased_price DECIMAL(10, 2),
+    purchased_quantity INTEGER,
     status_updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );

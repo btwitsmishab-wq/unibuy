@@ -199,6 +199,11 @@ app.get('/api/admin/migrate', async (req, res) => {
         // Inject the missing status column that was absent from both schema.sql and migrate.sql
         await db.query(`ALTER TABLE rooms ADD COLUMN IF NOT EXISTS status VARCHAR(50) DEFAULT 'active'`);
         
+        // Inject missing item columns
+        await db.query(`ALTER TABLE items ADD COLUMN IF NOT EXISTS added_by_name VARCHAR(255)`);
+        await db.query(`ALTER TABLE items ADD COLUMN IF NOT EXISTS purchased_price DECIMAL(10, 2)`);
+        await db.query(`ALTER TABLE items ADD COLUMN IF NOT EXISTS purchased_quantity INTEGER`);
+
         res.json({ message: 'Database schema and migrations applied successfully!' });
     } catch (err) {
         console.error('Migration Error:', err);
