@@ -187,6 +187,18 @@ app.get('/health', (req, res) => {
     res.json({ status: 'Backend is running', timestamp: new Date() });
 });
 
+// Auto-Migration Route (Temporary for Cloud Setup)
+app.get('/api/admin/migrate', async (req, res) => {
+    try {
+        const schema = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf-8');
+        await db.query(schema);
+        res.json({ message: 'Database migrated successfully!' });
+    } catch (err) {
+        console.error('Migration Error:', err);
+        res.status(500).json({ error: 'Migration failed', details: err.message });
+    }
+});
+
 // Get all categories
 app.get('/api/categories', async (req, res) => {
     try {
