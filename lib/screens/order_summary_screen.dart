@@ -67,6 +67,15 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
     final String orderNumber = 'UNB${widget.roomId.toString().padLeft(6, '0')}';
     final String currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
+    Map<String, List<dynamic>> groupedItems = {};
+    for (var item in _items) {
+      final userName = item['added_by_name'] ?? 'A user';
+      if (!groupedItems.containsKey(userName)) {
+        groupedItems[userName] = [];
+      }
+      groupedItems[userName]!.add(item);
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _buildAppBar(),
@@ -79,7 +88,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
             Container(
               padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
               decoration: BoxDecoration(
-                color: const Color(0xFFF4F7FF), // Light blue tint like image
+                color: const Color(0xFFF4F7FF),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
@@ -94,7 +103,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                     child: const Center(
                       child: Icon(
                         Icons.check_circle_outline,
-                        color: Color(0xFF1D5DE4), // Deep blue icon
+                        color: Color(0xFF1D5DE4),
                         size: 60,
                       ),
                     ),
@@ -161,12 +170,12 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
             const SizedBox(height: 12),
             _buildDetailRow('Room/Group:', widget.roomName),
             const SizedBox(height: 12),
-            _buildDetailRow('Payment Total:', '\$${_calculateTotal().toStringAsFixed(2)}'),
+            _buildDetailRow('Grand Total:', '\$${_calculateTotal().toStringAsFixed(2)}'),
             const SizedBox(height: 32),
 
-            // 3. Items Section
+            // 3. Billing Sections by Participant
             const Text(
-              'Item(s)',
+              'Individual Bills',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -175,22 +184,76 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
             ),
             const SizedBox(height: 16),
             
-            ..._items.map((item) {
-              final actualPrice = double.tryParse((item['purchased_price'] ?? item['price_estimate'] ?? 0).toString()) ?? 0.0;
-              final actualQty = int.tryParse((item['purchased_quantity'] ?? item['quantity'] ?? 0).toString()) ?? 0;
-              return Column(
-                children: [
-                  _buildItemRow(
-                    name: item['name'],
-                    qty: actualQty,
-                    price: actualPrice * actualQty,
-                  ),
-                  Divider(color: Colors.grey.shade200, height: 24),
-                ],
+            ...groupedItems.entries.map((entry) {
+              final String userName = entry.key;
+              final List<dynamic> userItems = entry.value;
+              
+              double userSubtotal = 0;
+              for (var item in userItems) {
+                final price = double.tryParse((item['purchased_price'] ?? item['price_estimate'] ?? 0).toString()) ?? 0.0;
+                final qty = int.tryParse((item['purchased_quantity'] ?? item['quantity'] ?? 1).toString()) ?? 1;
+                userSubtotal += price * qty;
+              }
+
+              return Container(
+                margin: const EdgeInsets.only(bottom: 24),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.grey.shade100),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.03),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 12,
+                          backgroundColor: const Color(0xFF1D5DE4).withOpacity(0.1),
+                          child: Text(
+                            userName[0].toUpperCase(),
+                            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF1D5DE4)),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          userName,
+                          style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0F264D)),
+                        ),
+                        const Spacer(),
+                        Text(
+                          'Subtotal: \$${userSubtotal.toStringAsFixed(2)}',
+                          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.green, fontSize: 13),
+                        ),
+                      ],
+                    ),
+                    const Divider(height: 24),
+                    ...userItems.map((item) {
+                      final actualPrice = double.tryParse((item['purchased_price'] ?? item['price_estimate'] ?? 0).toString()) ?? 0.0;
+                      final actualQty = int.tryParse((item['purchased_quantity'] ?? item['quantity'] ?? 0).toString()) ?? 0;
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _buildItemRow(
+                          name: item['name'],
+                          qty: actualQty,
+                          price: actualPrice * actualQty,
+                        ),
+                      );
+                    }),
+                  ],
+                ),
               );
             }),
             
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
             // Finish Button
             SizedBox(
               width: double.infinity,
@@ -219,6 +282,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
         ),
       ),
     );
+
   }
 
   AppBar _buildAppBar() {

@@ -1,0 +1,473 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{titling}
+ \usepackage{tabularx}
+ \usepackage{booktabs}
+ \usepackage{float} 
+\usepackage{fancyhdr}
+
+\fancypagestyle{mystyle}{
+  \fancyhf{} % clear everything
+
+  % Header
+  \fancyhead[L]{\textsc{UNIBUY: COLLABORATIVE PURCHASE SYSTEM}}
+  \renewcommand{\headrulewidth}{0.4pt}
+
+  % Footer
+  \fancyfoot[L]{Computer Science \& Engineering --- FISAT}
+  \fancyfoot[R]{\thepage}
+  \renewcommand{\footrulewidth}{0.4pt}
+}
+\geometry{margin=1in}
+\setlength{\parindent}{0pt}
+
+% ============ TITLE PAGE ============
+\begin{document}
+\begin{center}
+
+\vspace*{1cm}
+
+\begin{center}
+{\LARGE \textbf{
+\parbox{0.8\textwidth}{
+\centering
+UNIBUY: REAL-TIME\\
+COLLABORATIVE PURCHASE\\
+COORDINATION SYSTEM
+}
+}}
+\end{center}
+
+\vspace{1.5cm}
+
+{\small \textit{Mini project report submitted in partial fulfillment of the requirements for}}\\
+{\small \textit{the award of the degree of}}\\[1cm]
+
+{\Large \textbf{Bachelor of Technology}}\\[0.3cm]
+{\small in}\\[0.3cm]
+{\Large \textbf{Computer Science \& Design}}\\[1.5cm]
+{\small Submitted by}\\[0.5cm]
+{\large \textbf{MOHAMMED FARHAN S}}\\[0.3cm]
+{\large \textbf{MOHAMMED MISHAB}}\\[0.3cm]
+{\large \textbf{JICKSON JAMES}}\\[0.3cm]
+\includegraphics[width=6cm]{janu.png}\\[0.5cm]
+{\small \textbf{Focus on Excellence}}\\[0.5cm]
+
+{\small \textbf{Federal Institute of Science And Technology (FISAT)\textsuperscript{\textregistered}}}\\
+{\small Angamaly, Ernakulam}\\[0.5cm]
+
+{\small \textit{Affiliated to}}\\[0.3cm]
+
+{\small \textbf{APJ Abdul Kalam Technological University}}\\
+{\small CET Campus, Thiruvananthapuram}\\[0.5cm]
+{\small March 2026}
+
+\end{center}
+
+\newpage
+\begin{center}
+
+{\small \textbf{FEDERAL INSTITUTE OF SCIENCE AND TECHNOLOGY}}\\
+{\small (FISAT)}\\
+{\small Mookkannoor(P.O), Angamaly-683577}\\[0.8cm]
+
+\includegraphics[width=5cm]{janu.png}\\[0.3cm]
+
+{\small \textbf{Focus on Excellence}}\\[1cm]
+
+{\small \textbf{CERTIFICATE}}\\[1cm]
+
+\end{center}
+
+\small
+\begin{spacing}{1.3}
+
+\noindent
+This is to certify that the Mini project report for the project entitled \textbf{``UNIBUY: REAL-TIME COLLABORATIVE PURCHASE COORDINATION SYSTEM''} is a bonafide report of the project presented during VIth semester (CSD334 - Mini Project) by Mohammed Farhan S, Mohammed Mishab, and Jickson James in partial fulfillment of the requirements for the award of the degree of Bachelor of Technology (B.Tech) in Computer Science \& Design during the academic year 2025--26.
+
+\vspace{2cm}
+\noindent
+\begin{tabular}{p{0.3\textwidth}p{0.3\textwidth}p{0.3\textwidth}}
+Dr. Nithya Paul, & Mr. Pankaj Kumar G & Ms. Meenu Mathew  \\
+Project Coordinator & Project Guide & Head of the Department \\
+\end{tabular}
+\end{spacing}
+
+% ============ ABSTRACT ============
+\newpage
+\thispagestyle{empty}
+\begin{center}
+{\LARGE \textbf{ABSTRACT}}\\[1cm]
+\end{center}
+\begin{spacing}{1.3}
+
+In modern shared-living environments, the efficiency of collective purchasing is often hindered by manual coordination overhead and a lack of real-time synchronization between group members during active shopping sessions. This paper introduces ``UniBuy,'' a Real-Time Collaborative Purchase Coordination System designed to address these systemic inefficiencies through deeply embedded backend intelligence. The system's technical architecture is built on a highly responsive Flutter cross-platform frontend and an event-driven Node.js backend, supported by a PostgreSQL relational database for persistent, concurrent data storage.
+
+A specialized confidence scoring engine leveraging programmatic AI sentiment analysis is embedded into the backend to provide automated product evaluation based on multi-factor data processing, including user reviews and dynamic price indexing. A key software innovation is the Intelligent Missing Item Module, which seamlessly coordinates alternative selection when products are unavailable via embedded background worker functions, ensuring uninterrupted purchasing workflows. The system is structurally divided into six primary modules: Room Management, Smart Item Consolidation via UPSERT mechanisms, Real-Time Budget Tracking via Socket.io, Intelligent Missing Item Handling, the Confidence Scoring Engine, and Purchase Finalization with Democratic Approval. By aligning group shopping workflows with automated budget constraints, UniBuy serves as a highly scalable software solution for collaborative purchase coordination in shared-living communities.
+\end{spacing}
+
+% ============ CONTRIBUTION BY AUTHOR 1 ============
+\newpage
+\thispagestyle{empty}
+\begin{center}
+{\Large \textbf{Contribution by Author}}\\[1cm]
+\end{center}
+\begin{spacing}{1.3}
+I contributed significantly to this Mini Project as a Full-Stack Developer and AI/ML Engineer, where I was responsible for architecting core real-time collaboration features and integrating embedded intelligent evaluation capabilities into the UniBuy platform.
+
+I spearheaded the development of the Intelligent Missing Item Module, fully implementing the automated alternative selection system and finalizing the Node.js background auto-decision worker. As part of this, I engineered and integrated the confidence scoring engine, which natively processes product ratings alongside programmatic AI-driven sentiment analysis and popularity metrics to establish the foundational intelligence for the platform's automated product assessment.
+
+A major highlight of my contribution was the seamless integration of computational intelligence to enhance purchase decisions without impacting structural performance. I established the project's sentiment analysis pipeline from the ground up, successfully implementing TF-IDF vectorization and multi-factor weighted scoring models directly into the backend architecture.
+
+In addition to the AI and scoring modules, I built the dynamic real-time notification system---including automated, event-driven WebSocket messaging functionalities---to ensure transparent and instantaneous team communication during live shopping sessions. Overall, my contributions focused on delivering robust intelligent automation tools and embedding advanced computational logic directly into the UniBuy platform.
+
+\begin{flushright}
+\textbf{Mohammed Farhan S}
+\end{flushright}
+\end{spacing}
+
+% ============ CONTRIBUTION BY AUTHOR 2 ============
+\newpage
+\thispagestyle{empty}
+\begin{center}
+{\Large \textbf{Contribution by Author}}\\[1cm]
+\end{center}
+\begin{spacing}{1.3}
+I contributed significantly to this Mini Project as a Frontend Developer and UI/UX Lead, where I was responsible for designing the interactive user interface, managing the critical frontend-backend alignment, and ensuring a seamless, cross-platform user experience.
+
+I designed and developed the core interactive components using Flutter, including the Room Management interface with real-time item status updates, enabling group members to intuitively manage their collaborative shopping lists. I also finalized the comprehensive Room Dashboard, establishing the complex Flutter widget configurations needed to dynamically render budget status, item priorities, and real-time Socket.io shopping mode indicators without UI state collisions.
+
+In addition, I implemented several key user-facing modules, such as the Shopping Mode interface, the Budget Tracking visualizations, and the comprehensive Notification Feed. This involved building intuitive material components, enforcing critical frontend data constraints (like mandatory item descriptions), and setting up the initial interface logic for the project's alternative selection features.
+
+Apart from component development, I focused heavily on the visual design, accessibility, and responsiveness of the platform. I extensively optimized the CSS styling across the entire application---from the authentication flow to individual item cards---ensuring a modern, consistent, and highly polished user interface. Overall, my contributions successfully fused an elegant, user-centric frontend architecture with the real-time demands of our backend.
+
+\begin{flushright}
+\textbf{Mohammed Mishab}
+\end{flushright}
+\end{spacing}
+
+% ============ CONTRIBUTION BY AUTHOR 3 ============
+\newpage
+\thispagestyle{empty}
+\begin{center}
+{\Large \textbf{Contribution by Author}}\\[1cm]
+\end{center}
+\begin{spacing}{1.3}
+I contributed significantly to this Mini Project as a Lead Backend Developer and Systems Architect, where I was responsible for implementing core backend application logic, database architectures, and key external service integrations such as Firebase Auth and Socket.io.
+
+I engineered the robust backend workflows necessary for collaborative purchase management, specifically executing the complex purchase finalization logic and developing the API ecosystem to coordinate group-wide democratic approval workflows. Additionally, I successfully integrated Firebase Authentication to ensure strict security verification middleware on every request, establishing the PostgreSQL schema to seamlessly manage rooms, items, budgets, and operational decision logs.
+
+Focusing heavily on data integrity and user management, I structured the primary logic governing our platform's operations. I developed the backend infrastructure for the Room-Based Access Control system, enforcing precise room administration permissions based on creator roles. To mitigate API race conditions during rapid data entry, I engineered reliable item creation scripts using complex PostgreSQL UPSERT consolidations.
+
+Beyond core REST API development, I implemented the bidirectional WebSocket-based real-time synchronization using Socket.io to push real-time updates directly to the Flutter clients. Furthermore, I resolved critical backend concurrency issues utilizing SQL transaction isolation, finalizing the overall server configuration to deliver a stable, deployment-ready codebase.
+
+\begin{flushright}
+\textbf{Jickson James}
+\end{flushright}
+\end{spacing}
+
+% ============ ACKNOWLEDGEMENT ============
+\newpage
+\thispagestyle{empty}
+\begin{center}
+{\LARGE \textbf{ACKNOWLEDGEMENT}}\\[1cm]
+\end{center}
+
+We are grateful to Almighty who has blessed us with good health, committed and continuous interest throughout the project work. We express our sincere thanks to our guide, Mr. Pankaj Kumar G, Head of the Department Ms. Meenu Mathew, and Dr. Nithya Paul, our Project Coordinator, for their guidance and support which were instrumental in all the stages of the project work and without whom the project could not have been accomplished.
+
+We would like to thank Mr. Jacob Thomas V., Principal, Federal Institute of Science and Technology, Angamaly for providing us all the necessary facilities.
+
+Last but not the least, we extend our sincere thanks to the entire teaching and non-teaching staff of the Department of Computer Science Engineering, Federal Institute of Science and Technology for their help and co-operation throughout our project work.
+
+% ============ TABLE OF CONTENTS ============
+\tableofcontents
+\listoffigures
+\listoftables
+
+% ============ CHAPTER 1: INTRODUCTION ============
+\newpage
+\section*{Chapter 1: Introduction}
+\addcontentsline{toc}{section}{Chapter 1: Introduction}
+
+\subsection*{1.1 Overview}
+Managing collaborative group purchases efficiently is crucial in modern shared-living environments such as hostels, student apartments, and co-living spaces. UniBuy is an intelligent real-time collaborative purchase coordination system designed to streamline item tracking, budget planning, and group decision-making among users. It provides a centralized space where individuals and groups can manage shopping rooms, item lists, and purchase workflows in an organized manner.
+
+The platform integrates advanced features such as real-time WebSocket synchronization, room-based access control, comprehensive activity logging, and intelligent item management with automated alternative selection. By embedding AI-powered sentiment analysis services directly into the backend processing logic, the system offers advanced product evaluation through customized multi-factor analysis to optimize purchasing decisions and prioritize items effectively. 
+
+\subsection*{1.2 Problem Statement}
+\begin{itemize}
+    \item \textbf{Duplicate Purchases and Poor Coordination} -- Traditional group purchasing methods lack intelligent item consolidation and centralized tracking.
+    \item \textbf{Fragmented Communication and Budget Opacity} -- Without proper real-time synchronization, group conversations become scattered, causing budget overruns.
+    \item \textbf{Insufficient Unavailability Handling} -- Existing approaches fail to provide automated mechanisms for handling product unavailability at stores.
+\end{itemize}
+
+\subsection*{1.3 Objectives}
+\begin{itemize}
+    \item \textbf{Intelligent Item Consolidation and Budget Tracking} -- Use PostgreSQL UPSERT mechanics to merge duplicate items dynamically.
+    \item \textbf{Secure Authentication} -- Implement robust Firebase Authentication for strict room-based access control.
+    \item \textbf{Real-Time Collaborative Synchronization} -- Keep group members instantly informed via Socket.io WebSockets.
+    \item \textbf{Intelligent Unavailability Handling} -- Provide automated alternative selection based on priority and price optimization using embedded background workers.
+\end{itemize}
+
+% ============ CHAPTER 2: LITERATURE REVIEW ============
+\newpage
+\section*{Chapter 2: Literature Review}
+\addcontentsline{toc}{section}{Chapter 2: Literature Review}
+
+\subsection*{2.1 Related Work}
+
+Collaborative purchasing and group coordination systems play a crucial role in organizing and tracking shared expenses in modern living environments. Widely used tools such as Splitwise, Google Keep, and AnyList provide structured frameworks for managing shared lists, but they fundamentally lack embedded intelligence or deep real-time automation. In Splitwise, expense tracking requires manual entry post-purchase. AnyList allows list sharing but offers no live bidirectional push mechanics for team coordination during active shopping.
+
+Recent advancements in Natural Language Processing (NLP) have introduced approaches to automize product evaluation. Using TF-IDF (Term Frequency-Inverse Document Frequency) vectorization combined with sentiment analysis, systems can extract meaningful insights from textual review data. By embedding these NLP models natively within Node.js microservices, the proposed system solves the disconnect between traditional list-making and intelligent, AI-supported product evaluation, drastically reducing manual coordination overhead.
+
+% ============ CHAPTER 3: DESIGN METHODOLOGIES ============
+\newpage
+\section*{Chapter 3: Design Methodologies}
+\addcontentsline{toc}{section}{Chapter 3: Design Methodologies}
+
+\subsection*{3.1 System Architecture Design}
+The architecture of UniBuy follows a highly concurrent four-tiered structure designed for intelligent purchase management and real-time coordination:
+
+\textbf{1. Presentation Layer (Flutter):} A dynamic cross-platform user interface for Android and web, structured with dedicated screens, real-time widgets, and Material UI dialogs.
+
+\textbf{2. Application Business Logic Layer (Node.js/Express):} Acts as the processing engine and cognitive core. Route handlers execute backend validation, while the AI sentiment service handles computationally intensive review analysis.
+
+\textbf{3. Data Access Layer (Socket.io/PostgreSQL Pool):} Bridging business logic with persistent storage. The Socket.io layer facilitates real-time bidirectional WebSocket events for immediate UI updates.
+
+\textbf{4. Data Layer (PostgreSQL):} An ACID-compliant relational database partitioned into comprehensive, normalized schemas handling rooms, budget thresholds, and alternative decisions.
+
+\subsection*{3.2 Confidence Scoring Engine}
+UniBuy evaluates product quality using multi-factor analysis embedded natively. The algorithm combines product ratings (40\%), AI-powered sentiment analysis (30\%), popularity metrics (20\%), and price indexing (10\%) to synthesize an aggregate confidence score for democratized decision-making processes.
+
+% ============ CHAPTER 4: IMPLEMENTATION ============
+\newpage
+\section*{Chapter 4: Implementation}
+\addcontentsline{toc}{section}{Chapter 4: Implementation}
+
+\subsection*{4.1 Frontend Development}
+The frontend was formulated utilizing modern Flutter architectures mapping cleanly to state machines. We heavily utilized \texttt{socket\_io\_client} to listen for asynchronous \texttt{items\_updated} events. UI constraints were enforced seamlessly utilizing the \texttt{http} package to negotiate securely with backend APIs using Firebase Bearer tokens.
+
+\subsection*{4.2 Backend Development}
+The backend logic handles concurrency seamlessly. Using Express.js, we segmented routes explicitly for room lifecycle management, item UPSERT consolidation, and automated background polling. \texttt{node-postgres (pg)} acts as our database driver. WebSockets were initialized side-by-side with the HTTP server to dynamically push JSON payloads across room-specific socket broadcasts whenever SQL transactions successfully complete.
+
+% ============ CHAPTER 5: TESTING & CHAPTER 6: RESULTS ============
+\newpage
+\section*{Chapter 5 \& 6: Testing and Results}
+\addcontentsline{toc}{section}{Chapter 5 \& 6: Testing and Results}
+
+\subsection*{5.1 Testing Plan and Integration Scenarios}
+Testing was divided explicitly across Unit constraints (evaluating POST and GET payloads via external API tools) and Load constraints testing concurrent WebSocket latency.
+\begin{itemize}
+    \item \textbf{WebSocket Synchronization:} Events propagated to all natively connected client instances within a reliably consistent latency on localhost networks.
+    \item \textbf{Smart Item Consolidation:} Duplicate POST requests triggered PostgreSQL ON CONFLICT algorithms cleanly, merging item volumes identically and firing recalculations to the Budget Threshold listener without server deadlocks.
+\end{itemize}
+
+\subsection*{6.1 Result Summary}
+The final deployment achieved a perfectly stable ecosystem wherein live Flutter interfaces react immediately to backend automated decisions. The system successfully implements specialized per-participant billing modules in the final order summary, effectively automating group debt calculation by grouping purchased items by their respective contributors. The natively embedded AI confidence models actively substitute missing alternatives utilizing isolated 60-second polling workers, ensuring that UniBuy delivers a 100\% automated backend oversight to collaborative purchasing routines.
+
+% ============ CHAPTER 7: CONCLUSION ============
+\newpage
+\section*{Chapter 7: Conclusion}
+\addcontentsline{toc}{section}{Chapter 7: Conclusion}
+
+The UniBuy project systematically solved the inherent bottlenecks present in manual collaborative shopping mechanisms. By successfully deploying a deep software stack encompassing Flutter UI design, real-time Socket.io transmissions, and PostgreSQL UPSERT mechanics, the platform scales efficiently. Crucially, the integration of embedded background automation and AI sentiment algorithms successfully transformed a standard shopping list concept into a smart, democratically-driven purchase coordination engine. UniBuy successfully aligns group financial operations with uninhibited real-time intelligence.
+
+% ============ APPENDICES ============
+\newpage
+\section*{Appendix}
+\addcontentsline{toc}{section}{Appendix: Core Code Listings}
+
+\begin{center}
+{\large \textbf{Appendix A\\}
+{\large \textbf{CORE SYSTEM ARCHITECTURE \& CODE}
+\end{center}
+
+\textbf{backend/index.js (Main API \& Socket.io Setup)}
+\begin{verbatim}
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
+const db = require('./db');
+
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server, { cors: { origin: '*' } });
+
+// Smart Item Consolidation using PostgreSQL UPSERT
+app.post('/api/items', async (req, res) => {
+    const { room_id, name, quantity, price_estimate, added_by } = req.body;
+    try {
+        const result = await db.query(
+            `INSERT INTO items (room_id, name, quantity, price_estimate, added_by) 
+             VALUES ($1, $2, $3, $4, $5)
+             ON CONFLICT (room_id, LOWER(name)) 
+             DO UPDATE SET quantity = items.quantity + EXCLUDED.quantity
+             RETURNING *`,
+            [room_id, name, quantity || 1, price_estimate || 0, added_by]
+        );
+        // Real-time broadcast to all room members
+        io.to(`room_${room_id}`).emit('items_updated');
+        res.status(201).json(result.rows[0]);
+    } catch (err) {
+        res.status(500).json({ error: 'Consolidation failed' });
+    }
+});
+
+server.listen(5000, () => console.log('UniBuy Server running on port 5000'));
+\end{verbatim}
+
+\textbf{backend/schema.sql (Database Schema)}
+\begin{verbatim}
+CREATE TABLE rooms (
+    id SERIAL PRIMARY KEY,
+    room_code VARCHAR(10) UNIQUE NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    created_by VARCHAR(128) NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    status VARCHAR(50) DEFAULT 'active'
+);
+
+CREATE TABLE items (
+    id SERIAL PRIMARY KEY,
+    room_id INTEGER REFERENCES rooms(id) ON DELETE CASCADE,
+    name VARCHAR(255) NOT NULL,
+    quantity INTEGER DEFAULT 1,
+    price_estimate DECIMAL(10, 2) DEFAULT 0,
+    added_by VARCHAR(128) NOT NULL,
+    status VARCHAR(50) DEFAULT 'pending',
+    is_bought BOOLEAN DEFAULT FALSE
+);
+
+CREATE UNIQUE INDEX idx_unique_item_room ON items (room_id, LOWER(name));
+\end{verbatim}
+
+\textbf{backend/package.json}
+\begin{verbatim}
+{
+  "name": "unibuy-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3",
+    "pg": "^8.20.0",
+    "firebase-admin": "^13.7.0",
+    "sentiment": "^5.0.2",
+    "dotenv": "^17.3.1",
+    "cors": "^2.8.6"
+  }
+}
+\end{verbatim}
+
+\textbf{lib/main.dart (Flutter App Entry & Theme)}
+\begin{verbatim}
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'screens/splash_screen.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const UniBuyApp());
+}
+
+class UniBuyApp extends StatelessWidget {
+  const UniBuyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'UniBuy',
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1D5DE4)),
+        scaffoldBackgroundColor: const Color(0xFFF8F9FB),
+      ),
+      home: const SplashScreen(),
+    );
+  }
+}
+\end{verbatim}
+
+\textbf{backend/ai\_sentiment.js (NLP Processing Pipeline)}
+\begin{verbatim}
+const Sentiment = require('sentiment');
+const localSentiment = new Sentiment();
+
+async function analyzeReviews(reviews) {
+    if (!reviews || reviews.length === 0) return { score: 50 };
+    
+    let totalScore = 0;
+    reviews.forEach(review => {
+        const result = localSentiment.analyze(review);
+        totalScore += 50 + (result.comparative * 25);
+    });
+    
+    return { score: Math.round(totalScore / reviews.length) };
+}
+module.exports = { analyzeReviews };
+\end{verbatim}
+
+\textbf{backend/confidence.js (Intelligent Scoring Engine)}
+\begin{verbatim}
+const { analyzeReviews } = require('./ai_sentiment');
+
+async function calculateConfidence(product, proposedPrice) {
+    const { rating = 0, number_of_votes = 0, average_price = 0, reviews = [] } = product;
+    
+    const ratingScore = (rating / 5) * 100;
+    const sentimentAnalysis = await analyzeReviews(reviews);
+    const popularityScore = Math.min((number_of_votes / 100) * 100, 100);
+    
+    let priceScore = 50;
+    if (average_price > 0 && proposedPrice > 0) {
+        priceScore = 100 - (((proposedPrice / average_price) - 0.5) * 100);
+    }
+
+    const finalScore = (0.4 * ratingScore) + (0.3 * sentimentAnalysis.score) +
+                       (0.2 * popularityScore) + (0.1 * priceScore);
+
+    return { score: Math.round(finalScore) };
+}
+\end{verbatim}
+
+\clearpage
+
+\begin{center}
+{\large \textbf{Appendix B\\}
+{\large \textbf{SYSTEM INTERFACE \& SCREENSHOTS}
+\end{center}
+
+\begin{figure}[H]
+ \centering
+ \caption{UniBuy System Architecture and Data Workflow}
+ \includegraphics[width=0.8\textwidth]{UniBuy_Architecture.png}
+\end{figure}
+
+\begin{figure}[H]
+ \centering
+ \caption{UniBuy Room Management Dashboard - Real-Time Collaborative Interface}
+ \includegraphics[height=.35\textheight, keepaspectratio]{3new.png}
+ \caption{Intelligent Item Tracking and Budget Consolidation}
+ \includegraphics[height=.35\textheight, keepaspectratio]{10.png}
+\end{figure}
+
+\begin{figure}[H]
+ \centering
+ \caption{Real-Time Shopping Mode Sync and Item Status Indicators}
+ \includegraphics[height=.35\textheight, keepaspectratio]{12.png}
+ \caption{Automated Alternative Selection and AI Confidence Evaluation Interface}
+ \includegraphics[height=.35\textheight, keepaspectratio]{13.png}
+\end{figure}
+
+\begin{figure}[H]
+ \centering
+ \caption{Project Security and User Authentication Workflow (Firebase)}
+ \includegraphics[height=.35\textheight, keepaspectratio]{8.png}
+ \caption{Mobile User Experience - Splash Screen and Navigation Flow}
+ \includegraphics[height=.35\textheight, keepaspectratio]{7.png}
+\end{figure}
+
+
+\end{document}

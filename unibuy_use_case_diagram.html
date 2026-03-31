@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UniBuy Use Case Diagram</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 50px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .canvas {
+            position: relative;
+            width: 1100px;
+            height: 850px;
+            background: white;
+        }
+
+        .svg-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        /* Use Case Oval Styling */
+        .use-case {
+            position: absolute;
+            border: 2px solid #000000;
+            border-radius: 50%;
+            padding: 10px 20px;
+            background: white;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 180px;
+            height: 60px;
+            z-index: 10;
+        }
+
+        /* Actor Styling */
+        .actor {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100px;
+            z-index: 10;
+        }
+
+        .actor-label {
+            margin-top: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* System Boundary */
+        .system-boundary {
+            position: absolute;
+            top: 20px;
+            left: 320px;
+            width: 750px;
+            height: 800px;
+            border: 2px dashed #000000;
+            z-index: 1;
+        }
+
+        .system-title {
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        /* Relationship Labels */
+        .rel-label {
+            position: absolute;
+            font-size: 12px;
+            font-style: italic;
+            background: white;
+            padding: 0 4px;
+            z-index: 5;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="canvas">
+        
+        <!-- SYSTEM BOUNDARY -->
+        <div class="system-boundary">
+            <div class="system-title">UniBuy Collaborative System</div>
+        </div>
+
+        <svg class="svg-layer">
+            <defs>
+                <!-- Include/Extend Arrows -->
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+                </marker>
+                <!-- Inheritance Arrow -->
+                <marker id="inheritance" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto">
+                    <path d="M 0,0 L 12,6 L 0,12 Z" fill="white" stroke="black" />
+                </marker>
+            </defs>
+
+            <!-- CONNECTOR LINES -->
+            
+            <!-- Actor to Use Cases (Member) -->
+            <line x1="100" y1="280" x2="350" y2="100" stroke="black" stroke-width="1.5" />
+            <line x1="100" y1="280" x2="350" y2="200" stroke="black" stroke-width="1.5" />
+            <line x1="100" y1="280" x2="350" y2="300" stroke="black" stroke-width="1.5" />
+            <line x1="100" y1="280" x2="350" y2="400" stroke="black" stroke-width="1.5" />
+            <line x1="100" y1="280" x2="350" y2="500" stroke="black" stroke-width="1.5" />
+
+            <!-- Actor to Use Cases (Owner) -->
+            <line x1="100" y1="650" x2="350" y2="500" stroke="black" stroke-width="1.5" />
+            <line x1="100" y1="650" x2="350" y2="600" stroke="black" stroke-width="1.5" />
+            <line x1="100" y1="650" x2="350" y2="700" stroke="black" stroke-width="1.5" />
+
+            <!-- Actor Inheritance (Owner is a Member) -->
+            <path d="M 50,580 L 50,380" fill="none" stroke="black" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#inheritance)" />
+
+            <!-- Include Relationships (Dashed Arrows) -->
+            <!-- Item Add -> Consolidation -->
+            <path d="M 530,300 L 760,300" fill="none" stroke="black" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowhead)" />
+            
+            <!-- Evaluate -> AI Sentiment -->
+            <path d="M 530,400 L 760,400" fill="none" stroke="black" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowhead)" />
+
+            <!-- Finalize -> Verify Budget -->
+            <path d="M 530,600 L 760,600" fill="none" stroke="black" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowhead)" />
+        </svg>
+
+        <!-- ACTORS -->
+        <div class="actor" style="left: 0px; top: 250px;">
+            <svg width="60" height="100">
+                <circle cx="30" cy="20" r="15" fill="none" stroke="black" stroke-width="2"/>
+                <line x1="30" y1="35" x2="30" y2="70" stroke="black" stroke-width="2"/>
+                <line x1="30" y1="45" x2="5" y2="35" stroke="black" stroke-width="2"/>
+                <line x1="30" y1="45" x2="55" y2="35" stroke="black" stroke-width="2"/>
+                <line x1="30" y1="70" x2="10" y2="95" stroke="black" stroke-width="2"/>
+                <line x1="30" y1="70" x2="50" y2="95" stroke="black" stroke-width="2"/>
+            </svg>
+            <div class="actor-label">Room Member</div>
+        </div>
+
+        <div class="actor" style="left: 0px; top: 620px;">
+            <svg width="60" height="100">
+                <circle cx="30" cy="20" r="15" fill="none" stroke="black" stroke-width="2"/>
+                <line x1="30" y1="35" x2="30" y2="70" stroke="black" stroke-width="2"/>
+                <line x1="30" y1="45" x2="5" y2="35" stroke="black" stroke-width="2"/>
+                <line x1="30" y1="45" x2="55" y2="35" stroke="black" stroke-width="2"/>
+                <line x1="30" y1="70" x2="10" y2="95" stroke="black" stroke-width="2"/>
+                <line x1="30" y1="70" x2="50" y2="95" stroke="black" stroke-width="2"/>
+            </svg>
+            <div class="actor-label">Room Creator</div>
+        </div>
+
+        <!-- USE CASES -->
+        <div class="use-case" style="left: 350px; top: 70px;">Join / Create Room</div>
+        <div class="use-case" style="left: 350px; top: 170px;">Manage Profiles</div>
+        
+        <div class="use-case" style="left: 350px; top: 270px;">Update Shopping List</div>
+        <div class="use-case" style="left: 770px; top: 270px;">Consolidate Items</div>
+        <div class="rel-label" style="left: 630px; top: 280px;"><<include>></div>
+
+        <div class="use-case" style="left: 350px; top: 370px;">Evaluate Alternatives</div>
+        <div class="use-case" style="left: 770px; top: 370px;">AI Sentiment Analysis</div>
+        <div class="rel-label" style="left: 630px; top: 380px;"><<include>></div>
+
+        <div class="use-case" style="left: 350px; top: 470px;">Vote & Share Items</div>
+
+        <!-- Room Creator Specific -->
+        <div class="use-case" style="left: 350px; top: 570px;">Finalize Room Purchase</div>
+        <div class="use-case" style="left: 770px; top: 570px;">Verify Budget Status</div>
+        <div class="rel-label" style="left: 630px; top: 580px;"><<include>></div>
+
+        <div class="use-case" style="left: 350px; top: 670px;">Manage Room Members</div>
+
+        <!-- Label for Extends/Inheritance -->
+        <div class="rel-label" style="left: 10px; top: 480px;"><<extends>></div>
+
+    </div>
+
+</body>
+</html>
